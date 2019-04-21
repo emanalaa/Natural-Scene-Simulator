@@ -24,7 +24,7 @@ namespace Graphics
             SetProjectionMatrix(45, 4 / 3, 0.1f, 100);
         }
 
-        public vec3 GetLookDirection()
+        public vec3 GetCameraPosition()
         {
             return mDirection;
         }
