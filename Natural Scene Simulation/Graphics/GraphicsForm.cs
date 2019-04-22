@@ -1,13 +1,17 @@
 ﻿using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
+using GlmNet;
+using System.Diagnostics;
 
 namespace Graphics
 {
     public partial class GraphicsForm : Form
     {
+       
         Renderer renderer = new Renderer();
         Thread MainLoopThread;
+        float deltaTime;
         Camera cam = new Camera();
         public GraphicsForm()
         {
@@ -15,10 +19,11 @@ namespace Graphics
             simpleOpenGlControl1.InitializeContexts();
 
             MoveCursor();
-            
 
             initialize();
+            deltaTime = 0.005f;
             MainLoopThread = new Thread(MainLoop);
+           
             MainLoopThread.Start();
 
         }
@@ -31,8 +36,8 @@ namespace Graphics
         {
             while (true)
             {
-                renderer.Update();
                 renderer.Draw();
+                renderer.Update(deltaTime);
                 simpleOpenGlControl1.Refresh();
             }
         }
@@ -45,27 +50,37 @@ namespace Graphics
         private void simpleOpenGlControl1_Paint(object sender, PaintEventArgs e)
         {
             renderer.Draw();
+            renderer.Update(deltaTime);
         }
 
         private void simpleOpenGlControl1_KeyPress(object sender, KeyPressEventArgs e)
         {
             float speed = 0.3f;
-            float Xposition = cam.mPosition.x;
-            float Yposition = cam.mPosition.y;
-            float Zposition = cam.mPosition.z;
+
+            vec3 temp = renderer.camera.GetCameraPosition();
 
             if (e.KeyChar == 'a' )
-                renderer.cam.Strafe(-speed);
+                renderer.camera.Strafe(-speed);
             if (e.KeyChar == 'd')
-                renderer.cam.Strafe(speed);
+                renderer.camera.Strafe(speed);
             if (e.KeyChar == 's')
-                renderer.cam.Walk(-speed);
+                renderer.camera.Walk(-speed);
             if (e.KeyChar == 'w')
-                renderer.cam.Walk(speed);
+                renderer.camera.Walk(speed);
             if (e.KeyChar == 'z')
-                renderer.cam.Fly(-speed);
+                renderer.camera.Fly(-speed);
             if (e.KeyChar == 'c' )
-                renderer.cam.Fly(speed);
+                renderer.camera.Fly(speed);
+
+            if ((renderer.camera.mPosition.x > -50 && renderer.camera.mPosition.x < 50) && (renderer.camera.mPosition.y > -50 && renderer.camera.mPosition.y < 50) && (renderer.camera.mPosition.z > -50 && renderer.camera.mPosition.z < 50))
+            {
+                temp = renderer.camera.GetCameraPosition();
+            }
+            else
+            {
+                renderer.camera.mPosition = temp;
+            }
+
         }
 
         float prevX, prevY;
@@ -74,25 +89,17 @@ namespace Graphics
             float speed = 0.05f;
             float delta = e.X - prevX;
             if (delta > 2)
-                renderer.cam.Yaw(-speed);
+                renderer.camera.Yaw(-speed);
             else if (delta < -2)
-                renderer.cam.Yaw(speed);
-
-            label1.Text = "Delta x: " + delta;
+                renderer.camera.Yaw(speed);
 
             delta = e.Y - prevY;
             if (delta > 2)
-                renderer.cam.Pitch(-speed);
+                renderer.camera.Pitch(-speed);
             else if (delta < -2)
-                renderer.cam.Pitch(speed);
+                renderer.camera.Pitch(speed);
 
-            label2.Text = "Delta y: " + delta;
             MoveCursor();
-        }
-
-        private void GraphicsForm_Load(object sender, System.EventArgs e)
-        {
-
         }
 
         private void MoveCursor()

@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.simpleOpenGlControl1 = new Tao.Platform.Windows.SimpleOpenGlControl();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // simpleOpenGlControl1
@@ -44,54 +42,32 @@
             this.simpleOpenGlControl1.ColorBits = ((byte)(32));
             this.simpleOpenGlControl1.DepthBits = ((byte)(16));
             this.simpleOpenGlControl1.Location = new System.Drawing.Point(0, 0);
+            this.simpleOpenGlControl1.Margin = new System.Windows.Forms.Padding(2);
             this.simpleOpenGlControl1.Name = "simpleOpenGlControl1";
-            this.simpleOpenGlControl1.Size = new System.Drawing.Size(765, 439);
+            this.simpleOpenGlControl1.Size = new System.Drawing.Size(771, 508);
             this.simpleOpenGlControl1.StencilBits = ((byte)(0));
             this.simpleOpenGlControl1.TabIndex = 0;
             this.simpleOpenGlControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.simpleOpenGlControl1_Paint);
             this.simpleOpenGlControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.simpleOpenGlControl1_KeyPress);
             this.simpleOpenGlControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.simpleOpenGlControl1_MouseMove);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(860, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 17);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "DeltaX:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(860, 53);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "DeltaY:";
-            // 
             // GraphicsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 439);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(772, 511);
             this.Controls.Add(this.simpleOpenGlControl1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GraphicsForm";
             this.Text = "Graphics";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GraphicsForm_FormClosing);
-            this.Load += new System.EventHandler(this.GraphicsForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private Tao.Platform.Windows.SimpleOpenGlControl simpleOpenGlControl1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
     }
 }
 
