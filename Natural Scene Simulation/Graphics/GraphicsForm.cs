@@ -13,6 +13,8 @@ namespace Graphics
         Thread MainLoopThread;
         float deltaTime;
         Camera cam = new Camera();
+
+        float xComp, zComp, yComp;
         public GraphicsForm()
         {
             InitializeComponent();
@@ -72,21 +74,26 @@ namespace Graphics
             if (e.KeyChar == 'c' )
                 renderer.camera.Fly(speed);
 
-            if ((renderer.camera.mPosition.x > -50 && renderer.camera.mPosition.x < 50) && (renderer.camera.mPosition.y > -50 && renderer.camera.mPosition.y < 50) && (renderer.camera.mPosition.z > -50 && renderer.camera.mPosition.z < 50))
-            {
-                temp = renderer.camera.GetCameraPosition();
-            }
-            else
-            {
-                renderer.camera.mPosition = temp;
-            }
+            /* if ((renderer.camera.mPosition.x > -50 && renderer.camera.mPosition.x < 50) && (renderer.camera.mPosition.y > -50 && renderer.camera.mPosition.y < 50) && (renderer.camera.mPosition.z > -50 && renderer.camera.mPosition.z < 50))
+             {
+                 temp = renderer.camera.GetCameraPosition();
+             }
+             else
+             {
+                 renderer.camera.mPosition = temp;
+             }*/
+
+            xComp = (renderer.camera.mPosition.x) + 30;
+            zComp = (renderer.camera.mPosition.z) + 100;
+            yComp = (renderer.heights[(int)xComp, (int)zComp]) - 65;
+            renderer.camera.mPosition.y = yComp * 0.6f;
 
         }
 
         float prevX, prevY;
         private void simpleOpenGlControl1_MouseMove(object sender, MouseEventArgs e)
         {
-            float speed = 0.05f;
+            float speed = 0.1f;
             float delta = e.X - prevX;
             if (delta > 2)
                 renderer.camera.Yaw(-speed);
@@ -100,6 +107,11 @@ namespace Graphics
                 renderer.camera.Pitch(speed);
 
             MoveCursor();
+        }
+
+        private void simpleOpenGlControl1_Load(object sender, System.EventArgs e)
+        {
+
         }
 
         private void MoveCursor()

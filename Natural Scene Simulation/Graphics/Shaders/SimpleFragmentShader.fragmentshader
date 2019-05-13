@@ -1,22 +1,40 @@
 #version 330 core
 
 in vec3 fragColor;
-out vec3 color;
+out vec4 color;
 in vec2 uv;
-uniform sampler2D myTextureSampler;
+uniform sampler2D myTextureSampler1;
+uniform sampler2D myTextureSampler2;
 
 in vec3 position_worldspace;
 in vec3 normal_worldspace;
+
+uniform float maxVal;
 
 uniform vec3 LightPosition_worldspace;
 uniform vec3 EyePosition_worldspace;
 uniform vec3 ambientLight;
 uniform vec2 data;
 
+in vec3 viewspace;
+vec4 fogColor = vec4(0.5, 0.5, 0.5, 0);
+float density = 0.01;
+
 void main()
 {
 	vec3 Il = vec3(1,1,0);
-	vec3 textureColor = texture(myTextureSampler, uv).rgb;
+	
+	/*vec3 textureColor1 = texture(myTextureSampler1, uv).rgb;
+	vec3 textureColor2 = texture(myTextureSampler2, uv).rgb;
+
+	vec3 textureColor;
+	float height=position_worldspace.y/maxVal; 
+	if (height<-0.08)
+	    textureColor=textureColor2;
+	else
+		textureColor=textureColor1;*/
+
+	vec3 textureColor = texture(myTextureSampler2, uv).rgb;
 
 	vec3 lightVector = normalize(LightPosition_worldspace - position_worldspace);
 	float brightness = dot(lightVector,normal_worldspace);
@@ -38,6 +56,13 @@ void main()
 	if(att < 0)
 	   att = 0;
 
-	color = ambientLight + (diffuseLight + specularLight)*att;
-	color = color*textureColor;
+	color = vec4((ambientLight + (diffuseLight + specularLight)*att)*textureColor,1);
+
+	//FOG START
+	float distance = length(viewspace);
+	float fogFactor = 0;
+	fogFactor = 1/exp(distance*density);
+	color = mix(fogColor, color, fogFactor);
+	//FOG END
+	
 }
